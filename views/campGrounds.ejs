@@ -1,0 +1,14 @@
+<%- include("partials/header") %>
+
+<h1>Campgrounds!!!</h1>
+
+<% sites.forEach(site => { %>
+<div class="container">
+  <h4><%= site.name %> </h4>
+  <img src="<%= site.image %>" alt="">
+</div>
+<% }) %>
+
+<a href="/">Back to Landing</a>
+
+<%- include("partials/footer") %>
