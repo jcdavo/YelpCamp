@@ -14,20 +14,25 @@ app.get("/", (req, res) => {
   res.render(`landing`)
 });
 
+var campGrounds = [{
+    name: "Elbow Falls",
+    image: "https://live.staticflickr.com/2646/3851438221_f98f6e435d_b.jpg"
+  },
+  {
+    name: "South Bragg Creek",
+    image: "https://live.staticflickr.com/7390/9867372466_843f13b1c9_b.jpg"
+  },
+  {
+    name: "Candle Lake",
+    image: "https://live.staticflickr.com/8599/16710089445_7b8bcd92ed_b.jpg"
+  },
+  {
+    name: "Lake wisp",
+    image: "https://cdn.pixabay.com/photo/2016/11/22/23/08/adventure-1851092_960_720.jpg"
+  },
+];
+
 app.get("/campgrounds", (req, res) => {
-  var campGrounds = [{
-      name: "Elbow Falls",
-      image: "https://live.staticflickr.com/2646/3851438221_f98f6e435d_b.jpg"
-    },
-    {
-      name: "South Bragg Creek",
-      image: "https://live.staticflickr.com/7390/9867372466_843f13b1c9_b.jpg"
-    },
-    {
-      name: "Candle Lake",
-      image: "https://live.staticflickr.com/8599/16710089445_7b8bcd92ed_b.jpg"
-    },
-  ];
   res.render("campGrounds", {
     sites: campGrounds,
   });
@@ -36,8 +41,14 @@ app.get("/campgrounds", (req, res) => {
 app.post("/campgrounds", (req, res) => {
   var name = req.body.name;
   var image = req.body.image;
+  var newCampground = {
+    name: name,
+    image: image
+  };
+  campGrounds.push(newCampground);
+  res.redirect("/campgrounds");
   console.log(`Name: ${name}, Image: ${image}`);
-  console.log(req.body)
+  console.log(newCampground)
 });
 
 app.get("/campgrounds/new", (req, res) => {
