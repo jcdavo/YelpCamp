@@ -12,3 +12,8 @@
 
 - Create our header and footer partials
 - add in Bootstrap
+
+# Style the Campgrounds page
+
+- Add a better header/tittle
+- make campground display in a gris
