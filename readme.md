@@ -17,3 +17,8 @@
 
 - Add a better header/tittle
 - make campground display in a gris
+
+# Style the Navbar and Form
+
+- add a navbar to all templates
+- style the new campground form
