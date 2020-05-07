@@ -1,6 +1,20 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
+const express = require("express"),
+  app = express(),
+  bodyParser = require("body-parser"),
+  mongoose = require("mongoose")
+
+mongoose.connect('mongodb://localhost:27017/yelp_camp', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Tell me if we connected correctly to the DB
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log("we're connected!");
+});
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 // Tell Express to use body-parser
@@ -10,32 +24,29 @@ app.use(
   })
 );
 
+// Schema for Mongo
+const campgroundSchema = new mongoose.Schema({
+  name: String,
+  image: String
+});
+
+const Campground = mongoose.model("Campground", campgroundSchema);
+
 app.get("/", (req, res) => {
   res.render(`landing`)
 });
 
-var campGrounds = [{
-    name: "Elbow Falls",
-    image: "https://live.staticflickr.com/2646/3851438221_f98f6e435d_b.jpg"
-  },
-  {
-    name: "South Bragg Creek",
-    image: "https://live.staticflickr.com/7390/9867372466_843f13b1c9_b.jpg"
-  },
-  {
-    name: "Candle Lake",
-    image: "https://live.staticflickr.com/8599/16710089445_7b8bcd92ed_b.jpg"
-  },
-  {
-    name: "Lake wisp",
-    image: "https://cdn.pixabay.com/photo/2016/11/22/23/08/adventure-1851092_960_720.jpg"
-  },
-];
-
 app.get("/campgrounds", (req, res) => {
-  res.render("campGrounds", {
-    sites: campGrounds,
-  });
+  // Get all campgrounds from DB
+  Campground.find({}, (err, campgrounds) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("campGrounds", {
+        sites: campgrounds,
+      });
+    }
+  })
 });
 
 app.post("/campgrounds", (req, res) => {
@@ -45,16 +56,20 @@ app.post("/campgrounds", (req, res) => {
     name: name,
     image: image
   };
-  campGrounds.push(newCampground);
-  res.redirect("/campgrounds");
-  console.log(`Name: ${name}, Image: ${image}`);
-  console.log(newCampground)
+  Campground.create(newCampground, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds");
+      console.log("Success! New Campground added!");
+      console.log(campground);
+    }
+  });
 });
 
 app.get("/campgrounds/new", (req, res) => {
   res.render("new.ejs")
 })
-
 
 app.listen(process.env.PORT || 3000, process.env.IP, () => {
   console.log("On-Line at 3000")
