@@ -47,3 +47,9 @@
 | Edit    | /dogs/:id/edit | GET    | Show Edit form for one dog             | dog.findById()          |
 | Update  | /dogs/:id      | PUT    | Update a particular dog, then redirect | dog.findByIdAndUpdate() |
 | Destroy | /dogs/:id      | DELETE | Delete a particular dog                | dog.findByIdAndRemove() |
+
+## Refactor Mongoose Code
+
+- Create a model directory
+- Use module.exports
+- Require everything correctly
