@@ -38,9 +38,12 @@
 
 ## Restful Routes
 
-| Name   | URL       | verb | Description               |
-| ------ | --------- | ---- | ------------------------- |
-| INDEX  | /dogs     | GET  | Display a list of all dog |
-| NEW    | /dogs/new | GET  | Display form to make dog  |
-| CREATE | /dog      | POST | Add new dog to DB         |
-| SHOW   | /dog/:id  | GET  | Shows info about one dog  |
+| Name    | URL            | verb   | Description                            | Mongoose Method         |
+| ------- | -------------- | ------ | -------------------------------------- | ----------------------- |
+| INDEX   | /dogs          | GET    | Display a list of all dog              | dog.find()              |
+| NEW     | /dogs/new      | GET    | Display form to make dog               | N/A                     |
+| CREATE  | /dogs          | POST   | Add new dog, the redirect              | dog.create()            |
+| SHOW    | /dogs/:id      | GET    | Shows info about one dog               | dog.findById()          |
+| Edit    | /dogs/:id/edit | GET    | Show Edit form for one dog             | dog.findById()          |
+| Update  | /dogs/:id      | PUT    | Update a particular dog, then redirect | dog.findByIdAndUpdate() |
+| Destroy | /dogs/:id      | DELETE | Delete a particular dog                | dog.findByIdAndRemove() |
