@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"),
-  Campground = require("./models/campground");
+  Campground = require("./models/campground"),
+  Comment = require("./models/comment")
 
 const data = [{
     name: "Elbow Falls",
@@ -14,6 +15,11 @@ const data = [{
   {
     name: "Candle Lake",
     image: "https://live.staticflickr.com/8599/16710089445_7b8bcd92ed_b.jpg",
+    description: "blah, blah, blah"
+  },
+  {
+    name: "Lake wisp",
+    image: "https://cdn.pixabay.com/photo/2016/11/22/23/08/adventure-1851092_960_720.jpg",
     description: "blah, blah, blah"
   },
 ];
@@ -32,6 +38,19 @@ const seedDB = () => {
             console.log(err);
           } else {
             console.log("Campground added!");
+            // Create Comment
+            Comment.create({
+              text: "This place is amazing!, to bad there's  no internet",
+              author: "Homer"
+            }, (err, comment) => {
+              if (err) {
+                console.log(err);
+              } else {
+                campground.comment.push(comment);
+                campground.save();
+                console.log("Comment created");
+              };
+            });
           };
         });
       });
