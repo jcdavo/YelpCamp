@@ -1,9 +1,10 @@
-const express = require("express"),
-  app = express(),
+const Campground = require("./models/campground"),
+  Comment = require("./models/comment"),
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
-  Campground = require("./models/campground"),
-  seedDB = require("./seeds")
+  express = require("express"),
+  seedDB = require("./seeds"),
+  app = express()
 
 mongoose.connect('mongodb://localhost:27017/yelp_camp', {
   useNewUrlParser: true,
@@ -39,7 +40,7 @@ app.get("/campgrounds", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("index", {
+      res.render("campgrounds/index", {
         sites: campgrounds,
       });
     }
@@ -69,11 +70,11 @@ app.post("/campgrounds", (req, res) => {
 
 // NEW - Display form for new Campground
 app.get("/campgrounds/new", (req, res) => {
-  res.render("new.ejs")
+  res.render("campgrounds/new")
 })
 
 // SHOW - Shows more info about one Campground
-app.get("/campground/:id", (req, res) => {
+app.get("/campgrounds/:id", (req, res) => {
   // find campground with provided id
   Campground.findById(req.params.id).populate("comment").exec((err, foundCampground) => {
     if (err) {
@@ -81,13 +82,46 @@ app.get("/campground/:id", (req, res) => {
     } else {
       console.log(foundCampground);
       // render show template with that campground
-      res.render("show", {
+      res.render("campgrounds/show", {
         campground: foundCampground
       });
     }
   });
 });
 
+// ============ Comment Routes ==========
+
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/new", {
+        campground: campground
+      });
+    };
+  });
+});
+
+app.post("/campgrounds/:id/comments", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      Comment.create(req.body.comment, (err, comment) => {
+        if (err) {
+          console.log(err);
+        } else {
+          campground.comment.push(comment);
+          campground.save();
+          res.redirect(`/campgrounds/${campground._id}`);
+        };
+      });
+    };
+  });
+});
+
 app.listen(process.env.PORT || 3000, process.env.IP, () => {
-  console.log("On-Line at 3000")
+  console.log("On-Line at 3000");
 });
