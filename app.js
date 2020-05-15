@@ -5,9 +5,6 @@ const express = require("express"),
   Campground = require("./models/campground"),
   seedDB = require("./seeds")
 
-
-seedDB();
-
 mongoose.connect('mongodb://localhost:27017/yelp_camp', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -29,37 +26,7 @@ app.use(
   })
 );
 
-// Campground.create({
-//   name: "Elbow Falls",
-//   image: "https://live.staticflickr.com/2646/3851438221_f98f6e435d_b.jpg",
-//   description: "Beautiful Elbow Falls, amazing star nights and great waterfall, no services"
-// }, (err, campground) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("Success! New Campground added!");
-//     console.log(campground);
-//   }
-// });
-
-// var campGrounds = [{
-//     name: "Elbow Falls",
-//     image: "https://live.staticflickr.com/2646/3851438221_f98f6e435d_b.jpg"
-//   },
-//   {
-//     name: "South Bragg Creek",
-//     image: "https://live.staticflickr.com/7390/9867372466_843f13b1c9_b.jpg"
-//   },
-//   {
-//     name: "Candle Lake",
-//     image: "https://live.staticflickr.com/8599/16710089445_7b8bcd92ed_b.jpg"
-//   },
-//   {
-//     name: "Lake wisp",
-//     image: "https://cdn.pixabay.com/photo/2016/11/22/23/08/adventure-1851092_960_720.jpg"
-//   },
-// ];
-
+seedDB();
 
 app.get("/", (req, res) => {
   res.render(`landing`)
@@ -108,10 +75,11 @@ app.get("/campgrounds/new", (req, res) => {
 // SHOW - Shows more info about one Campground
 app.get("/campground/:id", (req, res) => {
   // find campground with provided id
-  Campground.findById(req.params.id, (err, foundCampground) => {
+  Campground.findById(req.params.id).populate("comment").exec((err, foundCampground) => {
     if (err) {
       console.log(err);
     } else {
+      console.log(foundCampground);
       // render show template with that campground
       res.render("show", {
         campground: foundCampground
