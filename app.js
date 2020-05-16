@@ -19,7 +19,7 @@ db.once('open', function () {
 });
 
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 // Tell Express to use body-parser
 app.use(
   bodyParser.urlencoded({
