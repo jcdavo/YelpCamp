@@ -80,7 +80,6 @@ app.get("/campgrounds/:id", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(foundCampground);
       // render show template with that campground
       res.render("campgrounds/show", {
         campground: foundCampground
