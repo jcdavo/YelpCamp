@@ -30,13 +30,13 @@ app.use(
     extended: true,
   })
 );
+
+// Passport Configuration
 app.use(require("express-session")({
   secret: "Why are Unicorns so lame",
   resave: false,
   saveUninitialized: false
 }));
-
-// Passport config
 app.use(passport.initialize());
 app.use(passport.session());
 // Very important, they are responsible  reading the data from session that's encoded
@@ -143,6 +143,33 @@ app.post("/campgrounds/:id/comments", (req, res) => {
     };
   });
 });
+
+// ===============
+// Auth Routes
+// ===============
+
+// Register Form
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+// Handle User SignUp
+app.post("/register", (req, res) => {
+  var newUser = new User({
+    username: req.body.username
+  });
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.render("register");
+    } else {
+      passport.authenticate("local")(req, res, function () {
+        res.redirect("/campgrounds");
+      });
+    };
+  });
+});
+
 
 // Server Settings
 app.listen(process.env.PORT || 3000, process.env.IP, () => {

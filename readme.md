@@ -73,6 +73,12 @@
 - Install all packages needed for auth
 - Define User Model
 
+## Add Auth Register
+
+- Configure Passport
+- Add register routes
+- Add register template
+
 ## Restful Routes
 
 | Name    | URL            | verb   | Description                            | Mongoose Method         |
