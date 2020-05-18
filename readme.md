@@ -79,6 +79,11 @@
 - Add register routes
 - Add register template
 
+## Add Auth Login
+
+- Add login routes
+- add login template
+
 ## Restful Routes
 
 | Name    | URL            | verb   | Description                            | Mongoose Method         |

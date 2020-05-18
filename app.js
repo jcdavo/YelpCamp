@@ -170,6 +170,20 @@ app.post("/register", (req, res) => {
   });
 });
 
+// ===============
+// Login Routes
+// ===============
+
+// Login Form
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.post("/login", passport.authenticate('local', {
+  successRedirect: "/campgrounds",
+  failureRedirect: "/login"
+}), function () {});
+
 
 // Server Settings
 app.listen(process.env.PORT || 3000, process.env.IP, () => {
