@@ -1,7 +1,11 @@
-const Campground = require("./models/campground"),
+const passportLocalMongoose = require("passport-local-mongoose"),
+  Campground = require("./models/campground"),
+  localStrategy = require("passport-local"),
   Comment = require("./models/comment"),
   bodyParser = require("body-parser"),
+  User = require("./models/user"),
   mongoose = require("mongoose"),
+  passport = require("passport"),
   express = require("express"),
   seedDB = require("./seeds"),
   app = express()
@@ -26,8 +30,25 @@ app.use(
     extended: true,
   })
 );
+app.use(require("express-session")({
+  secret: "Why are Unicorns so lame",
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Passport config
+app.use(passport.initialize());
+app.use(passport.session());
+// Very important, they are responsible  reading the data from session that's encoded
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 seedDB();
+
+// =========
+// Routes
+// =========
 
 app.get("/", (req, res) => {
   res.render(`landing`)
@@ -88,7 +109,9 @@ app.get("/campgrounds/:id", (req, res) => {
   });
 });
 
-// ============ Comment Routes ==========
+// ================= 
+// Comment Routes 
+// ================= 
 
 app.get("/campgrounds/:id/comments/new", (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
@@ -121,6 +144,7 @@ app.post("/campgrounds/:id/comments", (req, res) => {
   });
 });
 
+// Server Settings
 app.listen(process.env.PORT || 3000, process.env.IP, () => {
   console.log("On-Line at 3000");
 });

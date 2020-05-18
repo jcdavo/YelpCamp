@@ -36,6 +36,43 @@
 - Show db.collection.drop()
 - add a show route/template
 
+## Refactor Mongoose Code
+
+- Create a model directory
+- Use module.exports
+- Require everything correctly
+
+# Add Seeds File
+
+- Add a seeds.js file
+- Run the seeds file every time the server starts
+
+# Add the Comment model!
+
+- Make our errors go away!
+- Display comments on campground show page
+
+## Comment New/Create
+
+- Discuss nested routes
+- Add the comment new and create routes
+- Add the new comment form
+
+## Style Show Page
+
+- Add sidebar to show page
+- Display comments nicely
+
+## Finish Styling Show Page
+
+- Add public directory
+- Add custom stylesheet
+
+## Add User Model
+
+- Install all packages needed for auth
+- Define User Model
+
 ## Restful Routes
 
 | Name    | URL            | verb   | Description                            | Mongoose Method         |
@@ -48,8 +85,7 @@
 | Update  | /dogs/:id      | PUT    | Update a particular dog, then redirect | dog.findByIdAndUpdate() |
 | Destroy | /dogs/:id      | DELETE | Delete a particular dog                | dog.findByIdAndRemove() |
 
-## Refactor Mongoose Code
-
-- Create a model directory
-- Use module.exports
-- Require everything correctly
+| Name   | URL                          | verb |
+| ------ | ---------------------------- | ---- |
+| NEW    | campgrounds/:id/comments/new | GET  |
+| CREATE | campgrounds/:id/comments     | POST |
