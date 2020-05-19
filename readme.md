@@ -89,6 +89,9 @@
 - Add Logout route
 - Prevent User from adding a comment if not signed in
 - Add links to navbar
+
+## Auth Show/Hide Links
+
 - Show/Hide auth links correctly
 
 ## Restful Routes
