@@ -84,6 +84,13 @@
 - Add login routes
 - add login template
 
+## Add Auth Logout / Navbar
+
+- Add Logout route
+- Prevent User from adding a comment if not signed in
+- Add links to navbar
+- Show/Hide auth links correctly
+
 ## Restful Routes
 
 | Name    | URL            | verb   | Description                            | Mongoose Method         |

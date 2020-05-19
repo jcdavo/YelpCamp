@@ -69,7 +69,7 @@ app.get("/campgrounds", (req, res) => {
 });
 
 // CREATE - Add new Campground to DB
-app.post("/campgrounds", (req, res) => {
+app.post("/campgrounds", isLoggedIn, (req, res) => {
   var name = req.body.name;
   var image = req.body.image;
   var description = req.body.description;
@@ -90,7 +90,7 @@ app.post("/campgrounds", (req, res) => {
 });
 
 // NEW - Display form for new Campground
-app.get("/campgrounds/new", (req, res) => {
+app.get("/campgrounds/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new")
 })
 
@@ -113,7 +113,7 @@ app.get("/campgrounds/:id", (req, res) => {
 // Comment Routes 
 // ================= 
 
-app.get("/campgrounds/:id/comments/new", (req, res) => {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -125,7 +125,7 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
   });
 });
 
-app.post("/campgrounds/:id/comments", (req, res) => {
+app.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -184,6 +184,21 @@ app.post("/login", passport.authenticate('local', {
   failureRedirect: "/login"
 }), function () {});
 
+// ===============
+// Logout Routes
+// ===============
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/campgrounds");
+});
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  };
+  res.redirect("/login");
+}
 
 // Server Settings
 app.listen(process.env.PORT || 3000, process.env.IP, () => {
