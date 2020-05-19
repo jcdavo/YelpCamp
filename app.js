@@ -56,7 +56,7 @@ seedDB();
 // =========
 
 app.get("/", (req, res) => {
-  res.render("landing", {});
+  res.render("landing")
 });
 
 // INDEX - Show all Campgrounds
@@ -96,8 +96,8 @@ app.post("/campgrounds", isLoggedIn, (req, res) => {
 
 // NEW - Display form for new Campground
 app.get("/campgrounds/new", isLoggedIn, (req, res) => {
-  res.render("campgrounds/new", {})
-})
+  res.render("campgrounds/new")
+});
 
 // SHOW - Shows more info about one Campground
 app.get("/campgrounds/:id", (req, res) => {
@@ -155,7 +155,7 @@ app.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
 
 // Register Form
 app.get("/register", (req, res) => {
-  res.render("register", {});
+  res.render("register");
 });
 
 // Handle User SignUp
@@ -181,7 +181,7 @@ app.post("/register", (req, res) => {
 
 // Login Form
 app.get("/login", (req, res) => {
-  res.render("login", {});
+  res.render("login");
 });
 
 app.post("/login", passport.authenticate('local', {
