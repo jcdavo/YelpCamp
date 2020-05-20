@@ -94,6 +94,10 @@
 
 - Show/Hide auth links correctly
 
+## Refactoring
+
+- Use Express router to reorganize all routes
+
 ## Restful Routes
 
 | Name    | URL            | verb   | Description                            | Mongoose Method         |
