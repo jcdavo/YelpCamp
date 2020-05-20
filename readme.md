@@ -102,6 +102,16 @@
 - replace all app. with router.
 - we have to require packages that the routes require as well as models needed.
 
+## Users + Comments
+
+- Associate users and comments.
+- Save author's name to a comment automatically.
+
+## Users + Campgrounds
+
+- Prevent an unauthenticated user from creating a campground
+- Save username+id to newly created campground
+
 ## Restful Routes
 
 | Name    | URL            | verb   | Description                            | Mongoose Method         |
