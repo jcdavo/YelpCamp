@@ -96,8 +96,11 @@
 
 ## Refactoring
 
-- Use Express router to reorganize all routes
-- router = express.Router({mergeParams: true});
+- Create a .js file for every routing section (campgrounds, comments, index).
+- Use Express router to reorganize all routes.
+- router = express.Router({mergeParams: true}) tou merge all params passed through with the Router method.
+- replace all app. with router.
+- we have to require packages that the routes require as well as models needed.
 
 ## Restful Routes
 
