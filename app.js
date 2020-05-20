@@ -8,11 +8,11 @@ const passportLocalMongoose = require("passport-local-mongoose"),
   passport = require("passport"),
   express = require("express"),
   seedDB = require("./seeds"),
-  app = express();
+  app = express()
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 // Tell me if we connected correctly to the DB
@@ -32,13 +32,11 @@ app.use(
 );
 
 // Passport Configuration
-app.use(
-  require("express-session")({
-    secret: "Why are Unicorns so lame",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(require("express-session")({
+  secret: "Why are Unicorns so lame",
+  resave: false,
+  saveUninitialized: false,
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 // Very important, they are responsible  reading the data from session that's encoded
@@ -69,9 +67,9 @@ app.get("/campgrounds", (req, res) => {
       console.log(err);
     } else {
       res.render("campgrounds/index", {
-        sites: campgrounds,
+        sites: campgrounds
       });
-    }
+    };
   });
 });
 
@@ -83,7 +81,7 @@ app.post("/campgrounds", isLoggedIn, (req, res) => {
   var newCampground = {
     name: name,
     image: image,
-    description: description,
+    description: description
   };
   Campground.create(newCampground, (err, campground) => {
     if (err) {
@@ -112,9 +110,9 @@ app.get("/campgrounds/:id", (req, res) => {
       } else {
         // render show template with that campground
         res.render("campgrounds/show", {
-          campground: foundCampground,
+          campground: foundCampground
         });
-      }
+      };
     });
 });
 
@@ -128,9 +126,9 @@ app.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
       console.log(err);
     } else {
       res.render("comments/new", {
-        campground: campground,
+        campground: campground
       });
-    }
+    };
   });
 });
 
@@ -147,9 +145,9 @@ app.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
           campground.comment.push(comment);
           campground.save();
           res.redirect(`/campgrounds/${campground._id}`);
-        }
+        };
       });
-    }
+    };
   });
 });
 
@@ -165,7 +163,7 @@ app.get("/register", (req, res) => {
 // Handle User SignUp
 app.post("/register", (req, res) => {
   var newUser = new User({
-    username: req.body.username,
+    username: req.body.username
   });
   User.register(newUser, req.body.password, (err, user) => {
     if (err) {
@@ -175,7 +173,7 @@ app.post("/register", (req, res) => {
       passport.authenticate("local")(req, res, function () {
         res.redirect("/campgrounds");
       });
-    }
+    };
   });
 });
 
@@ -188,14 +186,11 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
+app.post("/login", passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login",
   }),
-  function () {}
-);
+  function () {});
 
 // ===============
 // Logout Routes
@@ -209,9 +204,9 @@ app.get("/logout", (req, res) => {
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
-  }
+  };
   res.redirect("/login");
-}
+};
 
 // Server Settings
 app.listen(process.env.PORT || 3000, process.env.IP, () => {
