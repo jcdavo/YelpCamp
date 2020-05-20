@@ -8,7 +8,7 @@ const passportLocalMongoose = require("passport-local-mongoose"),
   passport = require("passport"),
   express = require("express"),
   seedDB = require("./seeds"),
-  app = express()
+  app = express();
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
