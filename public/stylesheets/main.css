@@ -1,0 +1,19 @@
+/* body,
+html {
+  height: 100%;
+  margin: 0;
+} */
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+.content-wrap {
+  padding-bottom: 2.5rem;
+}
