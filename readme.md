@@ -97,6 +97,7 @@
 ## Refactoring
 
 - Use Express router to reorganize all routes
+- router = express.Router({mergeParams: true});
 
 ## Restful Routes
 
