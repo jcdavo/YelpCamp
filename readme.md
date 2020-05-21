@@ -131,6 +131,23 @@
 - User can only delete his/her campgrounds
 - Hide/Show edit and delete buttons
 
+## Editing Comments
+
+- Add Edit route
+- Add Edit button
+- Add Update route
+
+## Deleting Comments
+
+- Add destroy route
+- Ass delete button
+
+## Authorization to Comments
+
+- User can only edit his/her comments
+- User can only delete his/her comments
+- Hide/Show edit and delete buttons
+
 ## Refactoring Middleware
 
 ## RESTful Routes
@@ -145,7 +162,10 @@
 | Update  | /campgrounds/:id      | PUT    | Update a campgrounds, then redirect | campgrounds.findByIdAndUpdate() |
 | Destroy | /campgrounds/:id      | DELETE | Delete a campgrounds                | campgrounds.findByIdAndRemove() |
 
-| Name   | URL                          | verb |
-| ------ | ---------------------------- | ---- |
-| NEW    | campgrounds/:id/comments/new | GET  |
-| CREATE | campgrounds/:id/comments     | POST |
+| Name    | URL                                       | verb   | Mongoose Method              |
+| ------- | ----------------------------------------- | ------ | ---------------------------- |
+| NEW     | campgrounds/:id/comments/new              | GET    | N/A                          |
+| CREATE  | campgrounds/:id/comments                  | POST   | comments.create()            |
+| Edit    | campgrounds/:id/comments/:comment_id/edit | GET    | comments.findById()          |
+| Update  | campgrounds/:id/comments/:comment_id      | PUT    | comments.findByIdAndUpdate() |
+| Destroy | campgrounds/:id/comments/:comment_id      | DELETE | comments.findByIdAndRemove() |

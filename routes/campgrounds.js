@@ -83,6 +83,7 @@ router.put("/:id", checkCampgroundOwnership, (req, res) => {
   });
 });
 
+// Destroy Campground
 // async with a hook on the model to delete associated comments
 router.delete("/:id", checkCampgroundOwnership, async (req, res) => {
   try {
