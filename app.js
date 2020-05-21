@@ -1,4 +1,5 @@
 const passportLocalMongoose = require("passport-local-mongoose"),
+  methodOverride = require("method-override"),
   Campground = require("./models/campground"),
   localStrategy = require("passport-local"),
   Comment = require("./models/comment"),
@@ -29,6 +30,7 @@ db.once("open", function () {
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 // Tell Express to use body-parser
 app.use(
   bodyParser.urlencoded({

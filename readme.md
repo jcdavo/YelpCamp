@@ -112,17 +112,38 @@
 - Prevent an unauthenticated user from creating a campground
 - Save username+id to newly created campground
 
-## Restful Routes
+## Editing Campgrounds
 
-| Name    | URL            | verb   | Description                            | Mongoose Method         |
-| ------- | -------------- | ------ | -------------------------------------- | ----------------------- |
-| INDEX   | /dogs          | GET    | Display a list of all dog              | dog.find()              |
-| NEW     | /dogs/new      | GET    | Display form to make dog               | N/A                     |
-| CREATE  | /dogs          | POST   | Add new dog, the redirect              | dog.create()            |
-| SHOW    | /dogs/:id      | GET    | Shows info about one dog               | dog.findById()          |
-| Edit    | /dogs/:id/edit | GET    | Show Edit form for one dog             | dog.findById()          |
-| Update  | /dogs/:id      | PUT    | Update a particular dog, then redirect | dog.findByIdAndUpdate() |
-| Destroy | /dogs/:id      | DELETE | Delete a particular dog                | dog.findByIdAndRemove() |
+- Add Method-Override
+- Add Edit Route for Campgrounds
+- Add link to Edit Page
+- Add Update Route
+- Fix \$set problem
+
+## Deleting Campgrounds
+
+- Add Destroy Route
+- Add Delete Button
+
+## Authorization
+
+- User can only edit his/her campgrounds
+- User can only delete his/her campgrounds
+- Hide/Show edit and delete buttons
+
+## Refactoring Middleware
+
+## RESTful Routes
+
+| Name    | URL                   | verb   | Description                         | Mongoose Method                 |
+| ------- | --------------------- | ------ | ----------------------------------- | ------------------------------- |
+| INDEX   | /campgrounds          | GET    | Display a list of all campgrounds   | campgrounds.find()              |
+| NEW     | /campgrounds/new      | GET    | Display form to make campgrounds    | N/A                             |
+| CREATE  | /campgrounds          | POST   | Add new campgrounds, then redirect  | campgrounds.create()            |
+| SHOW    | /campgrounds/:id      | GET    | Shows info about one campgrounds    | campgrounds.findById()          |
+| Edit    | /campgrounds/:id/edit | GET    | Show Edit form for one campgrounds  | campgrounds.findById()          |
+| Update  | /campgrounds/:id      | PUT    | Update a campgrounds, then redirect | campgrounds.findByIdAndUpdate() |
+| Destroy | /campgrounds/:id      | DELETE | Delete a campgrounds                | campgrounds.findByIdAndRemove() |
 
 | Name   | URL                          | verb |
 | ------ | ---------------------------- | ---- |
