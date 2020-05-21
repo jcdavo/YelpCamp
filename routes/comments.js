@@ -7,7 +7,6 @@ const Campground = require("../models/campground"),
 
 // Comments New
 router.get("/new", isLoggedIn, (req, res) => {
-  console.log(Campground.findById(req.params.id));
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -37,7 +36,6 @@ router.post("/", isLoggedIn, (req, res) => {
           comment.save();
           campground.comment.push(comment);
           campground.save();
-          console.log(comment);
           res.redirect(`/campgrounds/${campground._id}`);
         };
       });
