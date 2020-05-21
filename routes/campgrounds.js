@@ -64,7 +64,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Edit Campground
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       res.redirect(`/campgrounds/`);
@@ -77,8 +77,8 @@ router.get("/:id/edit", (req, res) => {
 });
 
 // Update Campground
-router.put("/:id", (req, res) => {
-  Campground.findByIdAndUpdate(req.params.id, req.body, (err, updateCampground) => {
+router.put("/:id", isLoggedIn, (req, res) => {
+  Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updateCampground) => {
     if (err) {
       res.redirect("/campgrounds");
     } else {
@@ -87,6 +87,17 @@ router.put("/:id", (req, res) => {
   });
 });
 
+// async with a hook on the model to delete associated comments
+router.delete("/:id", isLoggedIn, async (req, res) => {
+  try {
+    let foundCampground = await Campground.findById(req.params.id);
+    await foundCampground.remove();
+    res.redirect("/campgrounds");
+  } catch (error) {
+    console.log(error.message);
+    res.redirect("/campgrounds");
+  }
+});
 
 
 // Middleware

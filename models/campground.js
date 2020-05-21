@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+  Comment = require('./comment');
 
 // Schema for Mongo
 const campgroundSchema = new mongoose.Schema({
@@ -17,4 +18,14 @@ const campgroundSchema = new mongoose.Schema({
     ref: "Comment"
   }]
 });
+
+// Middleware Hook to delete comments associated with campground
+campgroundSchema.pre('remove', async function () {
+  await Comment.deleteMany({
+    _id: {
+      $in: this.comment
+    }
+  });
+});
+
 module.exports = mongoose.model("Campground", campgroundSchema);

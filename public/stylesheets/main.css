@@ -17,3 +17,7 @@ footer {
 .content-wrap {
   padding-bottom: 2.5rem;
 }
+
+#delete-form {
+  display: inline;
+}
