@@ -37,7 +37,6 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
       console.log(err);
     } else {
       res.redirect("/campgrounds");
-      console.log("Success! New Campground added!");
     }
   });
 });
@@ -53,8 +52,9 @@ router.get("/:id", (req, res) => {
   Campground.findById(req.params.id)
     .populate("comment")
     .exec((err, foundCampground) => {
-      if (err) {
-        console.log(err);
+      if (err || !foundCampground) {
+        req.flash("error", "Campground not found");
+        res.redirect("/campgrounds");
       } else {
         // render show template with that campground
         res.render("campgrounds/show", {

@@ -156,6 +156,11 @@
 - Require in routes .js the middleware file
 - use middleware.nameOfMiddleware to call
 
+# Adding in Flash
+
+- Install and configure connect-flash
+- Add bootstrap alerts to header
+
 ## RESTful Routes
 
 | Name    | URL                   | verb   | Description                         | Mongoose Method                 |
