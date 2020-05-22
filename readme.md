@@ -150,6 +150,12 @@
 
 ## Refactoring Middleware
 
+- Create middleware dir with index.js (index is loaded by default when folder is required)
+- Create an object {} and each middleware is declared as part of the object
+- we have to require dependencies needed for the functions
+- Require in routes .js the middleware file
+- use middleware.nameOfMiddleware to call
+
 ## RESTful Routes
 
 | Name    | URL                   | verb   | Description                         | Mongoose Method                 |

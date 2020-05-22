@@ -16,19 +16,21 @@ const campgroundsRoutes = require("./routes/campgrounds"),
   commentsRoutes = require("./routes/comments"),
   indexRoutes = require("./routes/index");
 
-mongoose.connect("mongodb://localhost:27017/yelp_camp", {
+// DB connection
+const yelpCamp = "mongodb://localhost:27017/yelp_camp",
+  db = mongoose.connection;
+mongoose.connect(yelpCamp, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  // useCreateIndex: true
 });
-
-// Tell me if we connected correctly to the DB
-const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
-  console.log("we're connected!");
+  console.log(`Connected to db: ${yelpCamp}`);
 });
 
+// App Settings
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
@@ -65,6 +67,8 @@ app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/comments", commentsRoutes);
 
 // Server Settings
-app.listen(process.env.PORT || 3000, process.env.IP, () => {
-  console.log("On-Line at 3000");
+const server = app.listen(process.env.PORT || 3000, process.env.IP, () => {
+  var host = server.address().address,
+    port = server.address().port;
+  console.log(`YelpCamp connected @ ${port + host}`);
 });
