@@ -20,6 +20,7 @@ router.get("/", (req, res) => {
 // CREATE - Add new Campground to DB
 router.post("/", middleware.isLoggedIn, (req, res) => {
   var name = req.body.name;
+  var price = req.body.price;
   var image = req.body.image;
   var description = req.body.description;
   var author = {
@@ -30,12 +31,15 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     name: name,
     image: image,
     description: description,
+    price: price,
     author: author
   };
   Campground.create(newCampground, (err, campground) => {
     if (err) {
+      req.flash("error", err.message);
       console.log(err);
     } else {
+      req.flash("success", `New ${campground.name} created!`);
       res.redirect("/campgrounds");
     }
   });
@@ -77,8 +81,10 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
 router.put("/:id", middleware.checkCampgroundOwnership, (req, res) => {
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updateCampground) => {
     if (err) {
+      req.flash("error", err.message);
       res.redirect("/campgrounds");
     } else {
+      req.flash("success", "Campground updated!");
       res.redirect(`/campgrounds/${req.params.id}`);
     };
   });
@@ -90,10 +96,11 @@ router.delete("/:id", middleware.checkCampgroundOwnership, async (req, res) => {
   try {
     let foundCampground = await Campground.findById(req.params.id);
     await foundCampground.remove();
+    req.flash("error", `${foundCampground.name} is deleted!`);
     res.redirect("/campgrounds");
   } catch (error) {
     console.log(error.message);
-    res.redirect("/campgrounds");
+    res.redirect("back");
   }
 });
 

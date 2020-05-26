@@ -64,6 +64,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Require moment.js
+app.locals.moment = require('moment');
+
 // Seed Database
 // seedDB();
 
