@@ -48,6 +48,10 @@ footer {
   height: 100%;
 }
 
+.container.log-reg-padding {
+  padding-top: 10vh;
+}
+
 .card-base {
   border: 0;
   border-radius: 1rem;
