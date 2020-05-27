@@ -4,6 +4,7 @@
   "description": "Yelp Camp App",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "test"
   },
   "repository": {

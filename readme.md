@@ -180,3 +180,7 @@
 | Edit    | campgrounds/:id/comments/:comment_id/edit | GET    | comments.findById()          |
 | Update  | campgrounds/:id/comments/:comment_id      | PUT    | comments.findByIdAndUpdate() |
 | Destroy | campgrounds/:id/comments/:comment_id      | DELETE | comments.findByIdAndRemove() |
+
+#### Things to Improve
+
+- Background image for login, if element exists get element by id and apply background
