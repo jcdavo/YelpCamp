@@ -21,7 +21,7 @@ const campgroundsRoutes = require("./routes/campgrounds"),
   indexRoutes = require("./routes/index");
 
 // DB connection
-mongoose.connect(process.env.DATABASEURL, {
+mongoose.connect(process.env.DBURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
