@@ -23,22 +23,16 @@ const campgroundsRoutes = require("./routes/campgrounds"),
 // DB connection
 var dbUser = process.env.db_User,
   dbPass = process.env.db_Pass;
-mongoose
-  .connect(
-    `mongodb+srv://${dbUser}:${dbPass}@cluster0-e6qv0.mongodb.net/test?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      // useCreateIndex: true
-    }
-  )
-  .then(() => {
-    console.log(`Connected to db: YelpCamp`);
-  })
-  .catch((err) => {
-    console.log(`ERROR: ${err.message}`);
-  });
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0-e6qv0.mongodb.net/test?retryWrites=true&w=majority`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  // useCreateIndex: true
+}).then(() => {
+  console.log(`Connected to db: YelpCamp`);
+}).catch((err) => {
+  console.log(`ERROR: ${err.message}`);
+});
 
 // App Settings
 app.set("view engine", "ejs");
@@ -46,11 +40,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 // Tell Express to use body-parser
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
 
 // Passport Configuration
 app.use(
