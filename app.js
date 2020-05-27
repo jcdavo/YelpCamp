@@ -13,24 +13,32 @@ const passportLocalMongoose = require("passport-local-mongoose"),
   seedDB = require("./seeds"),
   app = express();
 
+require("dotenv").config();
+
 // Require Routes
 const campgroundsRoutes = require("./routes/campgrounds"),
   commentsRoutes = require("./routes/comments"),
   indexRoutes = require("./routes/index");
 
 // DB connection
-const yelpCamp = "mongodb://localhost:27017/yelp_camp",
-  db = mongoose.connection;
-mongoose.connect(yelpCamp, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  // useCreateIndex: true
-});
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-  console.log(`Connected to db: ${yelpCamp}`);
-});
+var dbUser = process.env.db_User,
+  dbPass = process.env.db_Pass;
+mongoose
+  .connect(
+    `mongodb+srv://${dbUser}:${dbPass}@cluster0-e6qv0.mongodb.net/test?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      // useCreateIndex: true
+    }
+  )
+  .then(() => {
+    console.log(`Connected to db: YelpCamp`);
+  })
+  .catch((err) => {
+    console.log(`ERROR: ${err.message}`);
+  });
 
 // App Settings
 app.set("view engine", "ejs");
@@ -45,11 +53,13 @@ app.use(
 );
 
 // Passport Configuration
-app.use(require("express-session")({
-  secret: "Why are Unicorns so lame",
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(
+  require("express-session")({
+    secret: "Why are Unicorns so lame",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 // Very important, they are responsible  reading the data from session that's encoded
@@ -65,7 +75,7 @@ app.use(function (req, res, next) {
 });
 
 // Require moment.js
-app.locals.moment = require('moment');
+app.locals.moment = require("moment");
 
 // Seed Database
 // seedDB();
