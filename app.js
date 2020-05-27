@@ -23,7 +23,7 @@ const campgroundsRoutes = require("./routes/campgrounds"),
 // DB connection
 var dbUser = process.env.db_User,
   dbPass = process.env.db_Pass;
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0-e6qv0.mongodb.net/test?retryWrites=true&w=majority`, {
+mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0-e6qv0.mongodb.net/yelp_camp?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
