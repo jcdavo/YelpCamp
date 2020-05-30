@@ -2,8 +2,10 @@ const passportLocalMongoose = require("passport-local-mongoose"),
   methodOverride = require("method-override"),
   Campground = require("./models/campground"),
   localStrategy = require("passport-local"),
+  trasnporter = require("./models/contact"),
   Comment = require("./models/comment"),
   bodyParser = require("body-parser"),
+  nodemailer = require("nodemailer"),
   flash = require("connect-flash"),
   port = process.env.PORT || 3000,
   User = require("./models/user"),
@@ -22,34 +24,37 @@ const campgroundsRoutes = require("./routes/campgrounds"),
 
 // DB connection
 mongoose.connect(process.env.DBURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  // useCreateIndex: true
-}).then(() => {
-  console.log(`Connected to db: YelpCamp`);
-}).catch((err) => {
-  console.log(`ERROR: ${err.message}`);
-});
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    // useCreateIndex: true
+  })
+  .then(() => {
+    console.log(`Connected to db: YelpCamp`);
+  })
+  .catch((err) => {
+    console.log(`ERROR: ${err.message}`);
+  });
 
 // App Settings
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-// Tell Express to use body-parser
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
 
-// Passport Configuration
+// Tell Express to use body-parser
 app.use(
-  require("express-session")({
-    secret: "Why are Unicorns so lame",
-    resave: false,
-    saveUninitialized: false,
+  bodyParser.urlencoded({
+    extended: true,
   })
 );
+
+// Passport Configuration
+app.use(require("express-session")({
+  secret: "Why are Unicorns so lame",
+  resave: false,
+  saveUninitialized: false,
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 // Very important, they are responsible  reading the data from session that's encoded
