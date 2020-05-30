@@ -1,39 +1,27 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 
-// google API
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
-const oauth2Client = new OAuth2(
-  process.env.client_id, // ClientID
-  process.env.client_secret, // Client Secret
-  "https://developers.google.com/oauthplayground" // Redirect URL
-);
-oauth2Client.setCredentials({
-  refresh_token: process.env.refresh_token,
-});
-const accessToken = oauth2Client.getAccessToken();
-
-const transport = {
-  service: "gmail",
+const transporter = nodemailer.createTransport({
+  pool: true,
+  service: "Gmail",
   auth: {
     type: "OAuth2",
     user: process.env.gmailUser,
-    clientID: process.env.client_id,
-    clientSecret: process.env.client_secret,
     refreshToken: process.env.refresh_token,
-    accessToken: process.env.access_token,
+    clientId: process.env.client_id,
+    clientSecret: process.env.client_secret,
   },
-};
+});
 
-var transporter = nodemailer.createTransport(transport);
-
-transporter.verify((err, success) => {
-  if (err) {
-    console.log(err.message);
-  } else {
-    console.log(`Ready to send mail: ${success}`);
-  }
+transporter.verify((error, success) => {
+  if (error) return console.log(error);
+  console.log("Server is ready to take our messages: ", success);
+  transporter.on("token", (token) => {
+    console.log("A new access token was generated");
+    console.log("User: %s", token.user);
+    console.log("Access Token: %s", token.accessToken);
+    console.log("Expires: %s", new Date(token.expires));
+  });
 });
 
 module.exports = transporter;

@@ -11,6 +11,10 @@
 *.tar
 *.zip
 
+# Dependencies #
+################
+node_modules/
+
 # Logs and databases #
 ######################
 *.log
@@ -28,3 +32,7 @@ ehthumbs.db
 Thumbs.db
 
 .env
+
+# How to #
+##########
+nodemailer.js
