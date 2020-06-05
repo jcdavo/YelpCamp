@@ -16,17 +16,29 @@ router.get("/contact", (req, res) => {
 });
 
 router.post("/contact", (req, res) => {
-  var message = req.body.message,
-    number = req.body.number,
-    email = req.body.email,
-    name = req.body.name,
-    content = `Name: ${name} \n Number: ${number} \n E-Mail: ${email} \n Message: ${message}`;
+  let {
+    name,
+    email,
+    number,
+    message
+  } = req.body;
+  message = req.sanitize(message);
+  number = req.sanitize(number);
+  email = req.sanitize(email);
+  name = req.sanitize(name);
+  contact = `Name: ${name}</br> Number: ${number}</br> E-Mail: ${email}</br>`;
 
   var mail = {
-    from: name,
+    from: email,
     to: process.env.messageEmail,
-    subject: `YelpCamp Contact`,
-    text: content
+    subject: `YelpCamp Contact from ${name}`,
+    text: contact,
+    html: `
+    <h1>Hi there!, this e-mail is from ${name}</h1>
+    <p>${message}</p>
+    <h3>Contact:</h3>
+    <p>${contact}</p>
+    `,
   };
 
   transporter.sendMail(mail, (err, data) => {

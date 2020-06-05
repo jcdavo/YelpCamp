@@ -1,4 +1,5 @@
 const passportLocalMongoose = require("passport-local-mongoose"),
+  expressSanitizer = require("express-sanitizer"),
   methodOverride = require("method-override"),
   Campground = require("./models/campground"),
   localStrategy = require("passport-local"),
@@ -35,9 +36,10 @@ mongoose.connect(process.env.DBURL, {
 });
 
 // App Settings
-app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.set("view engine", "ejs");
+app.use(expressSanitizer());
 app.use(flash());
 
 // Tell Express to use body-parser
