@@ -1,4 +1,5 @@
-const transporter = require("../models/contact"),
+const owasp = require("owasp-password-strength-test"),
+  transporter = require("../models/contact"),
   nodemailer = require("nodemailer"),
   express = require("express"),
   User = require("../models/user"),
@@ -16,12 +17,7 @@ router.get("/contact", (req, res) => {
 });
 
 router.post("/contact", (req, res) => {
-  let {
-    name,
-    email,
-    number,
-    message
-  } = req.body;
+  let { name, email, number, message } = req.body;
   message = req.sanitize(message);
   number = req.sanitize(number);
   email = req.sanitize(email);
@@ -48,7 +44,7 @@ router.post("/contact", (req, res) => {
     } else {
       req.flash("success", `Your message has been sent`);
       res.redirect("/campgrounds");
-    };
+    }
   });
 });
 
@@ -60,19 +56,25 @@ router.get("/register", (req, res) => {
 // Handle User SignUp
 router.post("/register", (req, res) => {
   var newUser = new User({
-    username: req.body.username
+    username: req.body.username,
   });
-  User.register(newUser, req.body.password, (err, user) => {
-    if (err) {
-      req.flash("error", err.message);
-      return res.redirect("/register");
-    } else {
-      passport.authenticate("local")(req, res, function () {
-        req.flash("success", `Welcome to YelpCamp ${user.username}`);
-        res.redirect("/campgrounds");
-      });
-    };
-  });
+  var result = owasp.test(req.body.password);
+  if (!result.errors.length) {
+    User.register(newUser, req.body.password, (err, user) => {
+      if (err) {
+        req.flash("error", err.message);
+        return res.redirect("/register");
+      } else {
+        passport.authenticate("local")(req, res, function () {
+          req.flash("success", `Welcome to YelpCamp ${user.username}`);
+          res.redirect("/campgrounds");
+        });
+      }
+    });
+  } else {
+    req.flash("error", `Errors: ${result.errors}`);
+    return res.redirect("/register");
+  }
 });
 
 // Login Form
@@ -81,13 +83,16 @@ router.get("/login", (req, res) => {
 });
 
 // Handle Login
-router.post("/login", passport.authenticate("local", {
+router.post(
+  "/login",
+  passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login",
     failureFlash: true,
-    successFlash: `Welcome to back!`
+    successFlash: `Welcome to back!`,
   }),
-  (req, res) => {});
+  (req, res) => {}
+);
 
 // Logout Route
 router.get("/logout", (req, res) => {
