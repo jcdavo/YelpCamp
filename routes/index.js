@@ -17,7 +17,12 @@ router.get("/contact", (req, res) => {
 });
 
 router.post("/contact", (req, res) => {
-  let { name, email, number, message } = req.body;
+  let {
+    name,
+    email,
+    number,
+    message
+  } = req.body;
   message = req.sanitize(message);
   number = req.sanitize(number);
   email = req.sanitize(email);
@@ -58,6 +63,9 @@ router.post("/register", (req, res) => {
   var newUser = new User({
     username: req.body.username,
   });
+  if (req.body.adminCode === `${process.env.adminCode}`) {
+    newUser.isAdmin = true;
+  };
   var result = owasp.test(req.body.password);
   if (!result.errors.length) {
     User.register(newUser, req.body.password, (err, user) => {
