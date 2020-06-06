@@ -27,6 +27,14 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <form action="/campgrounds" method="GET" class="form-inline">
+                <div class=form-group">
+                  <input type="text" name="search" placeholder="Campground Search..." class="form-control">
+                  <input class="btn text-decoration-none mr-2" type="submit" value="Search" id="searchBtn">
+                </div>
+              </form>
+            </li>
             <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             <% if (!user) { %>
             <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>

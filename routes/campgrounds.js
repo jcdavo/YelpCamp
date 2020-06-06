@@ -5,16 +5,44 @@ const Campground = require("../models/campground"),
 
 // INDEX - Show all Campgrounds
 router.get("/", (req, res) => {
-  // Get all campgrounds from DB
-  Campground.find({}, (err, campgrounds) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("campgrounds/index", {
-        sites: campgrounds
-      });
-    };
-  });
+  // eval(require("locus"));
+  if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    console.log(regex);
+    Campground.find({
+      $or: [{
+        name: regex
+      }, {
+        description: regex
+      }, {
+        "author.username": regex
+      }]
+    }, (err, campgrounds) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (campgrounds.length < 1) {
+          req.flash("error", `Campground containing "${req.query.search}" not found, please try again.`);
+          res.redirect("/campgrounds");
+        } else {
+          res.render("campgrounds/index", {
+            sites: campgrounds
+          });
+        };
+      };
+    });
+  } else {
+    // Get all campgrounds from DB
+    Campground.find({}, (err, campgrounds) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("campgrounds/index", {
+          sites: campgrounds
+        });
+      };
+    });
+  };
 });
 
 // CREATE - Add new Campground to DB
@@ -103,5 +131,9 @@ router.delete("/:id", middleware.checkCampgroundOwnership, async (req, res) => {
     res.redirect("back");
   }
 });
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;
