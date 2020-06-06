@@ -65,7 +65,10 @@ router.post("/register", (req, res) => {
   });
   if (req.body.adminCode === `${process.env.adminCode}`) {
     newUser.isAdmin = true;
-  };
+  } else if (req.body.adminCode.length > 0 && req.body.adminCode !== `${process.env.adminCode}`) {
+    req.flash("error", `Invalid Admin Code`);
+    return res.redirect("/register");
+  }
   var result = owasp.test(req.body.password);
   if (!result.errors.length) {
     User.register(newUser, req.body.password, (err, user) => {
