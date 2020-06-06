@@ -1,5 +1,5 @@
 const Campground = require("../models/campground"),
-  middleware = require('../middleware'),
+  middleware = require("../middleware"),
   express = require("express"),
   router = express.Router();
 
@@ -7,8 +7,7 @@ const Campground = require("../models/campground"),
 router.get("/", (req, res) => {
   // eval(require("locus"));
   if (req.query.search) {
-    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    console.log(regex);
+    const regex = new RegExp(escapeRegex(req.query.search), "gi");
     Campground.find({
       $or: [{
         name: regex
